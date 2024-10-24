@@ -9,7 +9,7 @@ few dependencies as possible while trying out some new things.
 This is currently a work in progress:
 
 Message parts
-[x] Header parsing
+[ ] Header parsing
 [ ] Header modification
 [ ] Question parsing
 [ ] Answer generation
