@@ -8,12 +8,13 @@ few dependencies as possible while trying out some new things.
 
 This is currently a work in progress:
 
-Message parts
-[ ] Header parsing
-[ ] Header modification
-[ ] Question parsing
-[ ] Answer generation
-[ ] Authority
-[ ] Additional
+Message parts:
+
+* [ ] Header parsing
+* [ ] Header modification
+* [ ] Question parsing
+* [ ] Answer generation
+* [ ] Authority
+* [ ] Additional
 
 
