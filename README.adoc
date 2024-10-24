@@ -1,0 +1,19 @@
+= DNS Server
+
+This is an experimental DNS server written in Rust which is intended to be RFC
+1035 compliant. Mostly this is an exercise in implementing something with as
+few dependencies as possible while trying out some new things.
+
+== Status
+
+This is currently a work in progress:
+
+Message parts
+[x] Header parsing
+[ ] Header modification
+[ ] Question parsing
+[ ] Answer generation
+[ ] Authority
+[ ] Additional
+
+
