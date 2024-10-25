@@ -10,7 +10,7 @@ This is currently a work in progress:
 
 Message parts:
 
-* [ ] Header parsing
+* [x] Header parsing
 * [ ] Header modification
 * [ ] Question parsing
 * [ ] Answer generation
