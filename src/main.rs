@@ -1,8 +1,9 @@
 use std::net;
 
-use header::MAX_PACKET_LEN;
-
 pub mod header;
+pub mod question;
+
+const MAX_PACKET_LEN: usize = 512;
 
 fn main() {
     let socket = net::UdpSocket::bind("127.0.0.1:1053").expect("couldn't bind to address");

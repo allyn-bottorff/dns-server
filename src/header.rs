@@ -1,4 +1,4 @@
-pub const MAX_PACKET_LEN: usize = 512;
+const MAX_PACKET_LEN: usize = 512;
 
 /// get the message ID from the message header
 pub fn get_id_from_header(packet: &[u8; MAX_PACKET_LEN]) -> u16 {
