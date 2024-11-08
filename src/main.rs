@@ -18,5 +18,10 @@ fn main() {
             panic!("packet was too large");
         }
         header::print_header(&query_packet);
+        let names = question::get_qnames(&query_packet);
+
+        for name in names {
+            println!("{name}");
+        }
     }
 }

@@ -21,9 +21,9 @@ pub fn get_qnames(packet: &[u8; MAX_PACKET_LEN]) -> Vec<&str> {
         if label_len == 0 {
             break;
         }
-        let label = str::from_utf8(&packet[q_ptr..q_ptr + label_len]).unwrap();
+        let label = str::from_utf8(&packet[q_ptr + 1..=q_ptr + label_len]).unwrap();
         labels.push(label);
-        q_ptr += label_len;
+        q_ptr += label_len + 1;
         loop_count += 1;
     }
     //labels are restricted to 63 octets or less
@@ -45,7 +45,7 @@ mod tests {
             None => "",
         };
 
-        assert_eq!(name, "google.com")
+        assert_eq!(name, "com")
     }
 
     fn make_test_packet() -> [u8; MAX_PACKET_LEN] {
