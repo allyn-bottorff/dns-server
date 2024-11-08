@@ -31,37 +31,37 @@ pub fn get_qnames(packet: &[u8; MAX_PACKET_LEN]) -> Vec<&str> {
     labels
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//
-//     #[test]
-//     fn test_get_qnames() {
-//         let packet = make_test_packet();
-//         let mut names = get_qnames(&packet);
-//
-//         let name = match names.pop() {
-//             Some(n) => n,
-//             None => "",
-//         };
-//
-//         assert_eq!(name, "google.com")
-//     }
-//
-//     fn make_test_packet() -> [u8; MAX_PACKET_LEN] {
-//         let mut buf: [u8; MAX_PACKET_LEN] = [0; MAX_PACKET_LEN];
-//         let test_query = [
-//             0x92_u8, 0xd8_u8, 0x01_u8, 0x20_u8, 0x00_u8, 0x01_u8, 0x00_u8, 0x00_u8, 0x00_u8,
-//             0x00_u8, 0x00_u8, 0x00_u8, 0x06_u8, 0x67_u8, 0x6f_u8, 0x6f_u8, 0x67_u8, 0x6c_u8,
-//             0x65_u8, 0x03_u8, 0x63_u8, 0x6f_u8, 0x6d_u8, 0x00_u8, 0x00_u8, 0x01_u8, 0x00_u8,
-//             0x01_u8,
-//         ];
-//
-//         // 00000000  92 d8 01 20 00 01 00 00  00 00 00 00 06 67 6f 6f  |... .........goo|
-//         // 00000010  67 6c 65 03 63 6f 6d 00  00 01 00 01              |gle.com.....|
-//         // 0000001c
-//
-//         buf[..test_query.len()].copy_from_slice(&test_query[..]);
-//         buf
-//     }
-// }
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_qnames() {
+        let packet = make_test_packet();
+        let mut names = get_qnames(&packet);
+
+        let name = match names.pop() {
+            Some(n) => n,
+            None => "",
+        };
+
+        assert_eq!(name, "google.com")
+    }
+
+    fn make_test_packet() -> [u8; MAX_PACKET_LEN] {
+        let mut buf: [u8; MAX_PACKET_LEN] = [0; MAX_PACKET_LEN];
+        let test_query = [
+            0x92_u8, 0xd8_u8, 0x01_u8, 0x20_u8, 0x00_u8, 0x01_u8, 0x00_u8, 0x00_u8, 0x00_u8,
+            0x00_u8, 0x00_u8, 0x00_u8, 0x06_u8, 0x67_u8, 0x6f_u8, 0x6f_u8, 0x67_u8, 0x6c_u8,
+            0x65_u8, 0x03_u8, 0x63_u8, 0x6f_u8, 0x6d_u8, 0x00_u8, 0x00_u8, 0x01_u8, 0x00_u8,
+            0x01_u8,
+        ];
+
+        // 00000000  92 d8 01 20 00 01 00 00  00 00 00 00 06 67 6f 6f  |... .........goo|
+        // 00000010  67 6c 65 03 63 6f 6d 00  00 01 00 01              |gle.com.....|
+        // 0000001c
+
+        buf[..test_query.len()].copy_from_slice(&test_query[..]);
+        buf
+    }
+}
