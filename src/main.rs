@@ -21,7 +21,7 @@ fn main() {
         let names = question::get_qnames(&query_packet);
 
         for name in names {
-            println!("{name}");
+            println!("{:?}", name);
         }
     }
 }

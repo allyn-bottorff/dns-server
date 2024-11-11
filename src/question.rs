@@ -7,11 +7,15 @@ const MAX_PACKET_LEN: usize = 512;
 // get all the QNAMEs out of the packet.
 // TODO: Could probably make this faster by not using a String since we have a well-known upper
 // bound on the size of labels
-pub fn get_qnames(packet: &[u8; MAX_PACKET_LEN]) -> Vec<&str> {
+pub fn get_qnames(packet: &[u8; MAX_PACKET_LEN]) -> Vec<Vec<&str>> {
     // let qcount = get_qd_count_from_header(packet);
     let mut q_ptr: usize = 12; // The header is always 12 bytes and the question starts
                                // immediately after
+   
+    let mut names: Vec<Vec<&str>> = Vec::new();
+
     let mut labels: Vec<&str> = Vec::new();
+
     let mut loop_count = 0;
     loop {
         let label_len = packet[q_ptr] as usize;
@@ -27,8 +31,10 @@ pub fn get_qnames(packet: &[u8; MAX_PACKET_LEN]) -> Vec<&str> {
         loop_count += 1;
     }
     //labels are restricted to 63 octets or less
+    
+    names.push(labels);
+    names
 
-    labels
 }
 
 #[cfg(test)]
@@ -42,10 +48,12 @@ mod tests {
 
         let name = match names.pop() {
             Some(n) => n,
-            None => "",
+            None => vec![""],
         };
 
-        assert_eq!(name, "com")
+        let name = name.join(".");
+
+        assert_eq!(name, "google.com")
     }
 
     fn make_test_packet() -> [u8; MAX_PACKET_LEN] {

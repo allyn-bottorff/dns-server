@@ -166,11 +166,11 @@ mod tests {
         let packet = make_test_packet();
         assert_eq!(get_r_code_from_header(&packet), 0)
     }
-    // #[test]
-    // fn test_get_z_code() {
-    //     let packet = make_test_packet();
-    //     assert_eq!(get_z_from_header(&packet), 0)
-    // }
+    #[test]
+    fn test_get_z_code() {
+        let packet = make_test_packet();
+        assert_eq!(get_z_from_header(&packet), 0)
+    }
     #[test]
     fn test_get_qd_count() {
         let packet = make_test_packet();
@@ -191,11 +191,11 @@ mod tests {
         let packet = make_test_packet();
         assert_eq!(get_ar_count_from_header(&packet), 0)
     }
-    // #[test]
-    // fn test_get_op_code() {
-    //     let packet = make_test_packet();
-    //     assert_eq!(get_op_code_from_header(&packet), 1)
-    // }
+    #[test]
+    fn test_get_op_code() {
+        let packet = make_test_packet();
+        assert_eq!(get_op_code_from_header(&packet), 1)
+    }
 
     fn make_test_packet() -> [u8; MAX_PACKET_LEN] {
         let mut buf: [u8; MAX_PACKET_LEN] = [0; MAX_PACKET_LEN];
