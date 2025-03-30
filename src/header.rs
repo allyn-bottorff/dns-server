@@ -48,7 +48,7 @@ pub fn get_ra_from_header(packet: &[u8; MAX_PACKET_LEN]) -> bool {
 
 /// reserved for future use
 pub fn get_z_from_header(packet: &[u8; MAX_PACKET_LEN]) -> u8 {
-    (packet[3] & 0b_01110000_u8) >> 4
+    (packet[4] & 0b_01110000_u8) >> 4
 }
 
 /// get RCODE from messag header
@@ -194,7 +194,7 @@ mod tests {
     #[test]
     fn test_get_op_code() {
         let packet = make_test_packet();
-        assert_eq!(get_op_code_from_header(&packet), 1)
+        assert_eq!(get_op_code_from_header(&packet), 0)
     }
 
     fn make_test_packet() -> [u8; MAX_PACKET_LEN] {

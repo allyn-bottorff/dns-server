@@ -5,6 +5,14 @@ pub mod question;
 
 const MAX_PACKET_LEN: usize = 512;
 
+/*
+To generate and capture test packets:
+Listen on a port with netcat:
+`nc -u -l 1053 > query_packet`
+Send a simple packet:
+dig @127.0.0.1 -p 1053 +retry=0 google.com
+*/
+
 fn main() {
     let socket = net::UdpSocket::bind("127.0.0.1:1053").expect("couldn't bind to address");
     let mut query_packet: [u8; MAX_PACKET_LEN];
