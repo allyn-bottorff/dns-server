@@ -7,12 +7,10 @@ use crate::FullPacket;
 // get all the QNAMEs out of the packet.
 // TODO: Could probably make this faster by not using a String since we have a well-known upper
 // bound on the size of labels
-pub fn get_qnames(packet: &FullPacket) -> Vec<Vec<&str>> {
+pub fn get_qnames(packet: &FullPacket) -> Vec<&str> {
     // let qcount = get_qd_count_from_header(packet);
     let mut q_ptr: usize = 12; // The header is always 12 bytes and the question starts
                                // immediately after
-
-    let mut names: Vec<Vec<&str>> = Vec::new();
 
     let mut labels: Vec<&str> = Vec::new();
 
@@ -32,8 +30,37 @@ pub fn get_qnames(packet: &FullPacket) -> Vec<Vec<&str>> {
     }
     //labels are restricted to 63 octets or less
 
-    names.push(labels);
-    names
+    labels
+}
+
+pub fn get_questions(packet: &FullPacket) -> (Vec<&str>, u16, u16) {
+    // let qcount = get_qd_count_from_header(packet);
+    let mut q_ptr: usize = 12; // The header is always 12 bytes and the question starts
+                               // immediately after
+
+    let mut labels: Vec<&str> = Vec::new();
+
+    let mut loop_count = 0;
+    loop {
+        let label_len = packet[q_ptr] as usize;
+        if loop_count > 100 {
+            panic!("not finding the end of the label");
+        }
+        if label_len == 0 {
+            q_ptr += 1;
+            break;
+        }
+        let label = str::from_utf8(&packet[q_ptr + 1..=q_ptr + label_len]).unwrap();
+        labels.push(label);
+        q_ptr += label_len + 1;
+        loop_count += 1;
+    }
+    //labels are restricted to 63 octets or less
+    let qtype: u16 = (packet[q_ptr] as u16) << 8 | packet[q_ptr + 1] as u16;
+    q_ptr += 2;
+    let qclass: u16 = (packet[q_ptr] as u16) << 8 | packet[q_ptr + 1] as u16;
+
+    (labels, qtype, qclass)
 }
 
 #[cfg(test)]
@@ -45,16 +72,21 @@ mod tests {
     #[test]
     fn test_get_qnames() {
         let packet = make_test_packet();
-        let mut names = get_qnames(&packet);
-
-        let name = match names.pop() {
-            Some(n) => n,
-            None => vec![""],
-        };
-
-        let name = name.join(".");
+        let labels = get_qnames(&packet);
+        let name = labels.join(".");
 
         assert_eq!(name, "google.com")
+    }
+
+    #[test]
+    fn test_get_questions() {
+        let packet = make_test_packet();
+        let (labels, qtype, qclass) = get_questions(&packet);
+        let name = labels.join(".");
+
+        assert_eq!(name, "google.com");
+        assert_eq!(qtype, 1);
+        assert_eq!(qclass, 1);
     }
 
     fn make_test_packet() -> FullPacket {
